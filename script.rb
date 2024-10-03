@@ -1,29 +1,16 @@
 def caesar_cipher(string, factor)
-  result = ""
+  result = ''
+  normalized_factor = factor % 26
 
   string.each_char do |letter|
 
-    letter_shifted_ascii = letter.ord + factor
+    if letter.match?(/[a-z]/)
 
-    if (letter.match?(/[a-zA-Z]/))
+      result += (((letter.ord - 'a'.ord + normalized_factor) % 26) + 'a'.ord).chr
 
-      if ((65..90).include?(letter_shifted_ascii) || (97..122).include?(letter_shifted_ascii))
+    elsif letter.match?(/[A-Z]/)
 
-        result += letter_shifted_ascii.chr
-      
-      else
-
-        if (letter.ord <= 90)
-
-          result += (64 + (letter_shifted_ascii - 90)).chr
-
-        else
-
-          result += (96 + (letter_shifted_ascii - 122)).chr
-
-        end
-
-      end
+      result += (((letter.ord - 'A'.ord + normalized_factor) % 26) + 'A'.ord).chr
 
     else
 
@@ -36,12 +23,3 @@ def caesar_cipher(string, factor)
   result
 
 end
-
-puts "Enter a string:"
-string = gets.chomp
-
-puts "Enter a shift factor:"
-shift_factor = gets.chomp.to_i
-
-puts "Result:"
-puts caesar_cipher(string, shift_factor)
